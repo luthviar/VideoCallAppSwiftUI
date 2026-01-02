@@ -1,0 +1,563 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		2FCB9D992F076D5900DEC81A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2FCB9D802F076D5600DEC81A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2FCB9D872F076D5600DEC81A;
+			remoteInfo = VideoCallAppGravi1;
+		};
+		2FCB9DA32F076D5900DEC81A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2FCB9D802F076D5600DEC81A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2FCB9D872F076D5600DEC81A;
+			remoteInfo = VideoCallAppGravi1;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		2FCB9D882F076D5600DEC81A /* VideoCallAppGravi1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VideoCallAppGravi1.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2FCB9D982F076D5900DEC81A /* VideoCallAppGravi1Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VideoCallAppGravi1Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2FCB9DA22F076D5900DEC81A /* VideoCallAppGravi1UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VideoCallAppGravi1UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		2FCB9D8A2F076D5600DEC81A /* VideoCallAppGravi1 */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = VideoCallAppGravi1;
+			sourceTree = "<group>";
+		};
+		2FCB9D9B2F076D5900DEC81A /* VideoCallAppGravi1Tests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = VideoCallAppGravi1Tests;
+			sourceTree = "<group>";
+		};
+		2FCB9DA52F076D5900DEC81A /* VideoCallAppGravi1UITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = VideoCallAppGravi1UITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2FCB9D852F076D5600DEC81A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2FCB9D952F076D5900DEC81A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2FCB9D9F2F076D5900DEC81A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2FCB9D7F2F076D5600DEC81A = {
+			isa = PBXGroup;
+			children = (
+				2FCB9D8A2F076D5600DEC81A /* VideoCallAppGravi1 */,
+				2FCB9D9B2F076D5900DEC81A /* VideoCallAppGravi1Tests */,
+				2FCB9DA52F076D5900DEC81A /* VideoCallAppGravi1UITests */,
+				2FCB9D892F076D5600DEC81A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2FCB9D892F076D5600DEC81A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2FCB9D882F076D5600DEC81A /* VideoCallAppGravi1.app */,
+				2FCB9D982F076D5900DEC81A /* VideoCallAppGravi1Tests.xctest */,
+				2FCB9DA22F076D5900DEC81A /* VideoCallAppGravi1UITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2FCB9D872F076D5600DEC81A /* VideoCallAppGravi1 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2FCB9DAC2F076D5900DEC81A /* Build configuration list for PBXNativeTarget "VideoCallAppGravi1" */;
+			buildPhases = (
+				2FCB9D842F076D5600DEC81A /* Sources */,
+				2FCB9D852F076D5600DEC81A /* Frameworks */,
+				2FCB9D862F076D5600DEC81A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				2FCB9D8A2F076D5600DEC81A /* VideoCallAppGravi1 */,
+			);
+			name = VideoCallAppGravi1;
+			packageProductDependencies = (
+			);
+			productName = VideoCallAppGravi1;
+			productReference = 2FCB9D882F076D5600DEC81A /* VideoCallAppGravi1.app */;
+			productType = "com.apple.product-type.application";
+		};
+		2FCB9D972F076D5900DEC81A /* VideoCallAppGravi1Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2FCB9DAF2F076D5900DEC81A /* Build configuration list for PBXNativeTarget "VideoCallAppGravi1Tests" */;
+			buildPhases = (
+				2FCB9D942F076D5900DEC81A /* Sources */,
+				2FCB9D952F076D5900DEC81A /* Frameworks */,
+				2FCB9D962F076D5900DEC81A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2FCB9D9A2F076D5900DEC81A /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				2FCB9D9B2F076D5900DEC81A /* VideoCallAppGravi1Tests */,
+			);
+			name = VideoCallAppGravi1Tests;
+			packageProductDependencies = (
+			);
+			productName = VideoCallAppGravi1Tests;
+			productReference = 2FCB9D982F076D5900DEC81A /* VideoCallAppGravi1Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		2FCB9DA12F076D5900DEC81A /* VideoCallAppGravi1UITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2FCB9DB22F076D5900DEC81A /* Build configuration list for PBXNativeTarget "VideoCallAppGravi1UITests" */;
+			buildPhases = (
+				2FCB9D9E2F076D5900DEC81A /* Sources */,
+				2FCB9D9F2F076D5900DEC81A /* Frameworks */,
+				2FCB9DA02F076D5900DEC81A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2FCB9DA42F076D5900DEC81A /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				2FCB9DA52F076D5900DEC81A /* VideoCallAppGravi1UITests */,
+			);
+			name = VideoCallAppGravi1UITests;
+			packageProductDependencies = (
+			);
+			productName = VideoCallAppGravi1UITests;
+			productReference = 2FCB9DA22F076D5900DEC81A /* VideoCallAppGravi1UITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2FCB9D802F076D5600DEC81A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1620;
+				LastUpgradeCheck = 1620;
+				TargetAttributes = {
+					2FCB9D872F076D5600DEC81A = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					2FCB9D972F076D5900DEC81A = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 2FCB9D872F076D5600DEC81A;
+					};
+					2FCB9DA12F076D5900DEC81A = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 2FCB9D872F076D5600DEC81A;
+					};
+				};
+			};
+			buildConfigurationList = 2FCB9D832F076D5600DEC81A /* Build configuration list for PBXProject "VideoCallAppGravi1" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2FCB9D7F2F076D5600DEC81A;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 2FCB9D892F076D5600DEC81A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2FCB9D872F076D5600DEC81A /* VideoCallAppGravi1 */,
+				2FCB9D972F076D5900DEC81A /* VideoCallAppGravi1Tests */,
+				2FCB9DA12F076D5900DEC81A /* VideoCallAppGravi1UITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2FCB9D862F076D5600DEC81A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2FCB9D962F076D5900DEC81A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2FCB9DA02F076D5900DEC81A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2FCB9D842F076D5600DEC81A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2FCB9D942F076D5900DEC81A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2FCB9D9E2F076D5900DEC81A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2FCB9D9A2F076D5900DEC81A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2FCB9D872F076D5600DEC81A /* VideoCallAppGravi1 */;
+			targetProxy = 2FCB9D992F076D5900DEC81A /* PBXContainerItemProxy */;
+		};
+		2FCB9DA42F076D5900DEC81A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2FCB9D872F076D5600DEC81A /* VideoCallAppGravi1 */;
+			targetProxy = 2FCB9DA32F076D5900DEC81A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		2FCB9DAA2F076D5900DEC81A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		2FCB9DAB2F076D5900DEC81A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2FCB9DAD2F076D5900DEC81A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"VideoCallAppGravi1/Preview Content\"";
+				DEVELOPMENT_TEAM = 76PUZQ34QB;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bi.learnquran.VideoCallAppGravi1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2FCB9DAE2F076D5900DEC81A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"VideoCallAppGravi1/Preview Content\"";
+				DEVELOPMENT_TEAM = 76PUZQ34QB;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bi.learnquran.VideoCallAppGravi1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		2FCB9DB02F076D5900DEC81A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 76PUZQ34QB;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bi.learnquran.VideoCallAppGravi1Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VideoCallAppGravi1.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/VideoCallAppGravi1";
+			};
+			name = Debug;
+		};
+		2FCB9DB12F076D5900DEC81A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 76PUZQ34QB;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bi.learnquran.VideoCallAppGravi1Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VideoCallAppGravi1.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/VideoCallAppGravi1";
+			};
+			name = Release;
+		};
+		2FCB9DB32F076D5900DEC81A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 76PUZQ34QB;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bi.learnquran.VideoCallAppGravi1UITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = VideoCallAppGravi1;
+			};
+			name = Debug;
+		};
+		2FCB9DB42F076D5900DEC81A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 76PUZQ34QB;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bi.learnquran.VideoCallAppGravi1UITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = VideoCallAppGravi1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2FCB9D832F076D5600DEC81A /* Build configuration list for PBXProject "VideoCallAppGravi1" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2FCB9DAA2F076D5900DEC81A /* Debug */,
+				2FCB9DAB2F076D5900DEC81A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2FCB9DAC2F076D5900DEC81A /* Build configuration list for PBXNativeTarget "VideoCallAppGravi1" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2FCB9DAD2F076D5900DEC81A /* Debug */,
+				2FCB9DAE2F076D5900DEC81A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2FCB9DAF2F076D5900DEC81A /* Build configuration list for PBXNativeTarget "VideoCallAppGravi1Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2FCB9DB02F076D5900DEC81A /* Debug */,
+				2FCB9DB12F076D5900DEC81A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2FCB9DB22F076D5900DEC81A /* Build configuration list for PBXNativeTarget "VideoCallAppGravi1UITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2FCB9DB32F076D5900DEC81A /* Debug */,
+				2FCB9DB42F076D5900DEC81A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2FCB9D802F076D5600DEC81A /* Project object */;
+}
