@@ -1,5 +1,7 @@
 # Video Call App Walkthrough
 
+![Video Call App Preview](videocall.jpeg)
+
 ## 1. Start the Signaling Server
 
 You need to run the signaling server on your computer (which acts as the server for both devices).
