@@ -57,15 +57,11 @@
 		};
 		2FCB9D9B2F076D5900DEC81A /* VideoCallAppGravi1Tests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = VideoCallAppGravi1Tests;
 			sourceTree = "<group>";
 		};
 		2FCB9DA52F076D5900DEC81A /* VideoCallAppGravi1UITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = VideoCallAppGravi1UITests;
 			sourceTree = "<group>";
 		};
@@ -133,7 +129,6 @@
 				98D280839B8887EAADE7A962 /* Pods-VideoCallAppGravi1.debug.xcconfig */,
 				DC38DD96809A8E79D85A9FCB /* Pods-VideoCallAppGravi1.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
