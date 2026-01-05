@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B0F9896036E9376A8B23D323 /* Pods_VideoCallAppGravi1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF724CD98A76978A8E29AC91 /* Pods_VideoCallAppGravi1.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		2FCB9D992F076D5900DEC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,21 +31,41 @@
 		2FCB9D882F076D5600DEC81A /* VideoCallAppGravi1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VideoCallAppGravi1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FCB9D982F076D5900DEC81A /* VideoCallAppGravi1Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VideoCallAppGravi1Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FCB9DA22F076D5900DEC81A /* VideoCallAppGravi1UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VideoCallAppGravi1UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		98D280839B8887EAADE7A962 /* Pods-VideoCallAppGravi1.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VideoCallAppGravi1.debug.xcconfig"; path = "Target Support Files/Pods-VideoCallAppGravi1/Pods-VideoCallAppGravi1.debug.xcconfig"; sourceTree = "<group>"; };
+		DC38DD96809A8E79D85A9FCB /* Pods-VideoCallAppGravi1.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VideoCallAppGravi1.release.xcconfig"; path = "Target Support Files/Pods-VideoCallAppGravi1/Pods-VideoCallAppGravi1.release.xcconfig"; sourceTree = "<group>"; };
+		FF724CD98A76978A8E29AC91 /* Pods_VideoCallAppGravi1.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VideoCallAppGravi1.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		2FCB9DC12F07703100DEC81A /* Exceptions for "VideoCallAppGravi1" folder in "VideoCallAppGravi1" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 2FCB9D872F076D5600DEC81A /* VideoCallAppGravi1 */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		2FCB9D8A2F076D5600DEC81A /* VideoCallAppGravi1 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				2FCB9DC12F07703100DEC81A /* Exceptions for "VideoCallAppGravi1" folder in "VideoCallAppGravi1" target */,
+			);
 			path = VideoCallAppGravi1;
 			sourceTree = "<group>";
 		};
 		2FCB9D9B2F076D5900DEC81A /* VideoCallAppGravi1Tests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = VideoCallAppGravi1Tests;
 			sourceTree = "<group>";
 		};
 		2FCB9DA52F076D5900DEC81A /* VideoCallAppGravi1UITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = VideoCallAppGravi1UITests;
 			sourceTree = "<group>";
 		};
@@ -52,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0F9896036E9376A8B23D323 /* Pods_VideoCallAppGravi1.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +97,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		22146D02F5269D8D5D8CC9A3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FF724CD98A76978A8E29AC91 /* Pods_VideoCallAppGravi1.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		2FCB9D7F2F076D5600DEC81A = {
 			isa = PBXGroup;
 			children = (
@@ -79,6 +112,8 @@
 				2FCB9D9B2F076D5900DEC81A /* VideoCallAppGravi1Tests */,
 				2FCB9DA52F076D5900DEC81A /* VideoCallAppGravi1UITests */,
 				2FCB9D892F076D5600DEC81A /* Products */,
+				70495A46E39C7D47BB6A35B6 /* Pods */,
+				22146D02F5269D8D5D8CC9A3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -92,6 +127,16 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		70495A46E39C7D47BB6A35B6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				98D280839B8887EAADE7A962 /* Pods-VideoCallAppGravi1.debug.xcconfig */,
+				DC38DD96809A8E79D85A9FCB /* Pods-VideoCallAppGravi1.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -99,9 +144,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2FCB9DAC2F076D5900DEC81A /* Build configuration list for PBXNativeTarget "VideoCallAppGravi1" */;
 			buildPhases = (
+				3AAC66E85DE4595B707DEB37 /* [CP] Check Pods Manifest.lock */,
 				2FCB9D842F076D5600DEC81A /* Sources */,
 				2FCB9D852F076D5600DEC81A /* Frameworks */,
 				2FCB9D862F076D5600DEC81A /* Resources */,
+				A5ABB302AEB7C44EAB80DDD0 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -111,8 +158,6 @@
 				2FCB9D8A2F076D5600DEC81A /* VideoCallAppGravi1 */,
 			);
 			name = VideoCallAppGravi1;
-			packageProductDependencies = (
-			);
 			productName = VideoCallAppGravi1;
 			productReference = 2FCB9D882F076D5600DEC81A /* VideoCallAppGravi1.app */;
 			productType = "com.apple.product-type.application";
@@ -134,8 +179,6 @@
 				2FCB9D9B2F076D5900DEC81A /* VideoCallAppGravi1Tests */,
 			);
 			name = VideoCallAppGravi1Tests;
-			packageProductDependencies = (
-			);
 			productName = VideoCallAppGravi1Tests;
 			productReference = 2FCB9D982F076D5900DEC81A /* VideoCallAppGravi1Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -157,8 +200,6 @@
 				2FCB9DA52F076D5900DEC81A /* VideoCallAppGravi1UITests */,
 			);
 			name = VideoCallAppGravi1UITests;
-			packageProductDependencies = (
-			);
 			productName = VideoCallAppGravi1UITests;
 			productReference = 2FCB9DA22F076D5900DEC81A /* VideoCallAppGravi1UITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -230,6 +271,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3AAC66E85DE4595B707DEB37 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-VideoCallAppGravi1-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A5ABB302AEB7C44EAB80DDD0 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-VideoCallAppGravi1/Pods-VideoCallAppGravi1-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-VideoCallAppGravi1/Pods-VideoCallAppGravi1-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VideoCallAppGravi1/Pods-VideoCallAppGravi1-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2FCB9D842F076D5600DEC81A /* Sources */ = {
@@ -306,7 +389,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -369,7 +452,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -390,6 +473,7 @@
 		};
 		2FCB9DAD2F076D5900DEC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 98D280839B8887EAADE7A962 /* Pods-VideoCallAppGravi1.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -399,6 +483,9 @@
 				DEVELOPMENT_TEAM = 76PUZQ34QB;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = VideoCallAppGravi1/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need camera access for video calls.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need microphone access for video calls.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -419,6 +506,7 @@
 		};
 		2FCB9DAE2F076D5900DEC81A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DC38DD96809A8E79D85A9FCB /* Pods-VideoCallAppGravi1.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -428,6 +516,9 @@
 				DEVELOPMENT_TEAM = 76PUZQ34QB;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = VideoCallAppGravi1/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need camera access for video calls.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need microphone access for video calls.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

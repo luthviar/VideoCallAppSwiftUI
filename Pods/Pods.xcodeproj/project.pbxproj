@@ -1,0 +1,555 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		0114D78AA29C45BB52A782B0ED8994CC /* WebRTC-SDK */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 6207A12C46DDAC2F8DFCA72C1CC23F44 /* Build configuration list for PBXAggregateTarget "WebRTC-SDK" */;
+			buildPhases = (
+				F8353241D51ADA6BDF3E4EF0FC51318F /* [CP] Copy XCFrameworks */,
+			);
+			dependencies = (
+			);
+			name = "WebRTC-SDK";
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		3B962A0CEB9EA7BD34905AE6084C4AFA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
+		BFED416C733C46F234827024DC73785C /* Pods-VideoCallAppGravi1-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6AF5BCD3BA940551F8C54AAB74716B /* Pods-VideoCallAppGravi1-dummy.m */; };
+		DB0D6D3F89CDC502FAC281CB643FD81D /* Pods-VideoCallAppGravi1-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B48019F3179B960002E64DBC39EFCA48 /* Pods-VideoCallAppGravi1-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		761514B26518874D1D5241C94A208402 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0114D78AA29C45BB52A782B0ED8994CC;
+			remoteInfo = "WebRTC-SDK";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		00D5A4BCCC6826C8F7953CCD60325412 /* WebRTC-SDK-xcframeworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "WebRTC-SDK-xcframeworks.sh"; sourceTree = "<group>"; };
+		21244F39B07AB5A8C65861659F5283AA /* Pods-VideoCallAppGravi1-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-VideoCallAppGravi1-acknowledgements.plist"; sourceTree = "<group>"; };
+		384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		4AB2AB9B52F1FA1E461F6833504711A3 /* WebRTC-SDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "WebRTC-SDK.release.xcconfig"; sourceTree = "<group>"; };
+		4C6F34CD717BAD77871EE4641E19B786 /* Pods-VideoCallAppGravi1.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-VideoCallAppGravi1.modulemap"; sourceTree = "<group>"; };
+		81C2F7A6E4CBA01FE975A89A1BFECA8A /* Pods-VideoCallAppGravi1-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-VideoCallAppGravi1-acknowledgements.markdown"; sourceTree = "<group>"; };
+		83CF2BD9C36DF0BC7DE0A303A908B4F9 /* Pods-VideoCallAppGravi1-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-VideoCallAppGravi1-frameworks.sh"; sourceTree = "<group>"; };
+		9B14E7D02EF5A93193603848C082EE3E /* Pods-VideoCallAppGravi1.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-VideoCallAppGravi1.debug.xcconfig"; sourceTree = "<group>"; };
+		9D6AF5BCD3BA940551F8C54AAB74716B /* Pods-VideoCallAppGravi1-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-VideoCallAppGravi1-dummy.m"; sourceTree = "<group>"; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		A48C4E9491604C2C9C9FF62F9A85191C /* Pods-VideoCallAppGravi1.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-VideoCallAppGravi1.release.xcconfig"; sourceTree = "<group>"; };
+		B3587BD5D3F346E9F91EB58E6DC29C1A /* Pods-VideoCallAppGravi1-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-VideoCallAppGravi1-Info.plist"; sourceTree = "<group>"; };
+		B48019F3179B960002E64DBC39EFCA48 /* Pods-VideoCallAppGravi1-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-VideoCallAppGravi1-umbrella.h"; sourceTree = "<group>"; };
+		BDEFD7CFC20FA55619B809C1A09A9AF7 /* WebRTC-SDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "WebRTC-SDK.debug.xcconfig"; sourceTree = "<group>"; };
+		E1F0E221B20064F062CCEEB866863456 /* Pods-VideoCallAppGravi1 */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-VideoCallAppGravi1"; path = Pods_VideoCallAppGravi1.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F613FA60FD74013114AF1A17E8073D99 /* WebRTC.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; path = WebRTC.xcframework; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		948DF643B1B0B23892B2AB4537EEBA83 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3B962A0CEB9EA7BD34905AE6084C4AFA /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		138B87E878A488608D753587F16A365F /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				00D5A4BCCC6826C8F7953CCD60325412 /* WebRTC-SDK-xcframeworks.sh */,
+				BDEFD7CFC20FA55619B809C1A09A9AF7 /* WebRTC-SDK.debug.xcconfig */,
+				4AB2AB9B52F1FA1E461F6833504711A3 /* WebRTC-SDK.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/WebRTC-SDK";
+			sourceTree = "<group>";
+		};
+		43735E02E25963F40BAD1D21CBD4CF4F /* WebRTC-SDK */ = {
+			isa = PBXGroup;
+			children = (
+				AED962EC6BF17430008D4CE808CB7994 /* Frameworks */,
+				138B87E878A488608D753587F16A365F /* Support Files */,
+			);
+			name = "WebRTC-SDK";
+			path = "WebRTC-SDK";
+			sourceTree = "<group>";
+		};
+		49782E3C9D56BF5B898FD7E1F9CAFAAD /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				A64580B9687B4751F29138660FADA201 /* Pods-VideoCallAppGravi1 */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		A3A8D93225807B6184AD75E6AFE75099 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				43735E02E25963F40BAD1D21CBD4CF4F /* WebRTC-SDK */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		A64580B9687B4751F29138660FADA201 /* Pods-VideoCallAppGravi1 */ = {
+			isa = PBXGroup;
+			children = (
+				4C6F34CD717BAD77871EE4641E19B786 /* Pods-VideoCallAppGravi1.modulemap */,
+				81C2F7A6E4CBA01FE975A89A1BFECA8A /* Pods-VideoCallAppGravi1-acknowledgements.markdown */,
+				21244F39B07AB5A8C65861659F5283AA /* Pods-VideoCallAppGravi1-acknowledgements.plist */,
+				9D6AF5BCD3BA940551F8C54AAB74716B /* Pods-VideoCallAppGravi1-dummy.m */,
+				83CF2BD9C36DF0BC7DE0A303A908B4F9 /* Pods-VideoCallAppGravi1-frameworks.sh */,
+				B3587BD5D3F346E9F91EB58E6DC29C1A /* Pods-VideoCallAppGravi1-Info.plist */,
+				B48019F3179B960002E64DBC39EFCA48 /* Pods-VideoCallAppGravi1-umbrella.h */,
+				9B14E7D02EF5A93193603848C082EE3E /* Pods-VideoCallAppGravi1.debug.xcconfig */,
+				A48C4E9491604C2C9C9FF62F9A85191C /* Pods-VideoCallAppGravi1.release.xcconfig */,
+			);
+			name = "Pods-VideoCallAppGravi1";
+			path = "Target Support Files/Pods-VideoCallAppGravi1";
+			sourceTree = "<group>";
+		};
+		AED962EC6BF17430008D4CE808CB7994 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F613FA60FD74013114AF1A17E8073D99 /* WebRTC.xcframework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BB5E8F96F8E5081C39D8C9B55FE0F1CC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E1F0E221B20064F062CCEEB866863456 /* Pods-VideoCallAppGravi1 */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CF1408CF629C7361332E53B88F7BD30C = {
+			isa = PBXGroup;
+			children = (
+				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
+				D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */,
+				A3A8D93225807B6184AD75E6AFE75099 /* Pods */,
+				BB5E8F96F8E5081C39D8C9B55FE0F1CC /* Products */,
+				49782E3C9D56BF5B898FD7E1F9CAFAAD /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E4801F62A6B08CD9B5410329F1A18FDE /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E4801F62A6B08CD9B5410329F1A18FDE /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		21C46457CC1249BE27508E41A42FC89E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB0D6D3F89CDC502FAC281CB643FD81D /* Pods-VideoCallAppGravi1-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		E2619318209204020EB8BC47E04B6FE9 /* Pods-VideoCallAppGravi1 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9EFE8EEE4927C1F8AF301D20D7018B17 /* Build configuration list for PBXNativeTarget "Pods-VideoCallAppGravi1" */;
+			buildPhases = (
+				21C46457CC1249BE27508E41A42FC89E /* Headers */,
+				5E4C8691BDC7033E9189359AB9532448 /* Sources */,
+				948DF643B1B0B23892B2AB4537EEBA83 /* Frameworks */,
+				60B1A77D1DFDD77679ED610E66A6D289 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F2D885DBC46F19600D28B1C2BF8BE094 /* PBXTargetDependency */,
+			);
+			name = "Pods-VideoCallAppGravi1";
+			productName = Pods_VideoCallAppGravi1;
+			productReference = E1F0E221B20064F062CCEEB866863456 /* Pods-VideoCallAppGravi1 */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BFDFE7DC352907FC980B868725387E98 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+			};
+			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 16.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
+			minimizedProjectReferenceProxies = 0;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = BB5E8F96F8E5081C39D8C9B55FE0F1CC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E2619318209204020EB8BC47E04B6FE9 /* Pods-VideoCallAppGravi1 */,
+				0114D78AA29C45BB52A782B0ED8994CC /* WebRTC-SDK */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		60B1A77D1DFDD77679ED610E66A6D289 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F8353241D51ADA6BDF3E4EF0FC51318F /* [CP] Copy XCFrameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/WebRTC-SDK/WebRTC-SDK-xcframeworks-input-files.xcfilelist",
+			);
+			name = "[CP] Copy XCFrameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/WebRTC-SDK/WebRTC-SDK-xcframeworks-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/WebRTC-SDK/WebRTC-SDK-xcframeworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5E4C8691BDC7033E9189359AB9532448 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BFED416C733C46F234827024DC73785C /* Pods-VideoCallAppGravi1-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F2D885DBC46F19600D28B1C2BF8BE094 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "WebRTC-SDK";
+			target = 0114D78AA29C45BB52A782B0ED8994CC /* WebRTC-SDK */;
+			targetProxy = 761514B26518874D1D5241C94A208402 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		110897DC8A042DD1C89A91E08D70C60C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BDEFD7CFC20FA55619B809C1A09A9AF7 /* WebRTC-SDK.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2A632BC03CCE29B8A24927A83FCCBDF6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9B14E7D02EF5A93193603848C082EE3E /* Pods-VideoCallAppGravi1.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				INFOPLIST_FILE = "Target Support Files/Pods-VideoCallAppGravi1/Pods-VideoCallAppGravi1-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-VideoCallAppGravi1/Pods-VideoCallAppGravi1.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		66F93F0CFB662D7DACCF04279039FE12 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4AB2AB9B52F1FA1E461F6833504711A3 /* WebRTC-SDK.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		90D4D09BCB6A4660E43ACBE9ECB6FE9A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		9553C89E183877A5CB2F3C6801BEC129 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Release;
+		};
+		E64DD291D933E0CC1E995737CE4B5A51 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A48C4E9491604C2C9C9FF62F9A85191C /* Pods-VideoCallAppGravi1.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				INFOPLIST_FILE = "Target Support Files/Pods-VideoCallAppGravi1/Pods-VideoCallAppGravi1-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-VideoCallAppGravi1/Pods-VideoCallAppGravi1.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				90D4D09BCB6A4660E43ACBE9ECB6FE9A /* Debug */,
+				9553C89E183877A5CB2F3C6801BEC129 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6207A12C46DDAC2F8DFCA72C1CC23F44 /* Build configuration list for PBXAggregateTarget "WebRTC-SDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				110897DC8A042DD1C89A91E08D70C60C /* Debug */,
+				66F93F0CFB662D7DACCF04279039FE12 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9EFE8EEE4927C1F8AF301D20D7018B17 /* Build configuration list for PBXNativeTarget "Pods-VideoCallAppGravi1" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2A632BC03CCE29B8A24927A83FCCBDF6 /* Debug */,
+				E64DD291D933E0CC1E995737CE4B5A51 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+}
