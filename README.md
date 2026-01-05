@@ -9,7 +9,7 @@ You need to run the signaling server on your computer (which acts as the server 
 1.  Open Terminal.
 2.  Navigate to the server directory:
     ```bash
-    cd /Volumes/ssd1tblq/Luthfi/projects/telkom/VideoCallAppGravi1/server
+    cd ~/VideoCallAppSwiftUI/server
     ```
 3.  Install dependencies (if you haven't already):
     ```bash
@@ -25,7 +25,7 @@ You need to run the signaling server on your computer (which acts as the server 
 
 1.  Open Terminal and navigate to the project directory:
     ```bash
-    cd /Volumes/ssd1tblq/Luthfi/projects/telkom/VideoCallAppGravi1
+    cd ~/VideoCallAppSwiftUI
     ```
 2.  **Install CocoaPods** (if not installed):
     ```bash
@@ -45,7 +45,7 @@ You need to run the signaling server on your computer (which acts as the server 
     - Add `Privacy - Microphone Usage Description`: "We need microphone access for video calls."
     - (Optional) If you want to run on local network without HTTPS/WSS, you might need `App Transport Security Settings` -> `Allow Arbitrary Loads` = YES.
 6.  **Update Config**:
-    - Open [VideoCallAppGravi1/Config.swift](file:///Volumes/ssd1tblq/Luthfi/projects/telkom/VideoCallAppGravi1/VideoCallAppGravi1/Config.swift).
+    - Open [VideoCallAppGravi1/Config.swift](file:///~/VideoCallAppGravi1/Config.swift).
     - Find your computer's local IP address (e.g., Option+Click WiFi icon).
     - Update `static let signalingServerUrl = URL(string: "ws://YOUR_IP_ADDRESS:8080")!`.
 
