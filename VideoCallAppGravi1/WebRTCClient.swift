@@ -26,9 +26,7 @@ final class WebRTCClient: NSObject {
     private var localVideoTrack: RTCVideoTrack?
     private var remoteVideoTrack: RTCVideoTrack?
     private var localVideoSource: RTCVideoSource?
-    private var customCameraCapturer: CustomCameraCapturer? // Custom capturer for reliable capture
-    private var debugRemoteRenderer: DebugVideoRenderer? // Debug renderer to track remote frame delivery
-    private var debugLocalRenderer: DebugVideoRenderer? // Debug renderer to track local frame delivery
+    private var sourceAdapter: VideoSourceAdapter? // Keep strong reference
 
     weak var delegate: WebRTCClientDelegate?
     
@@ -77,7 +75,7 @@ final class WebRTCClient: NSObject {
         self.peerConnection?.add(audioTrack, streamIds: ["stream0"])
         print("🎤 Audio track added to peer connection")
 
-        // Video - use custom capturer for reliable frame delivery
+        // Video
         let videoSource = ConnectionFactory.factory.videoSource()
         self.localVideoSource = videoSource
 
@@ -85,22 +83,21 @@ final class WebRTCClient: NSObject {
         self.videoCapturer = RTCFileVideoCapturer(delegate: videoSource)
         print("⚠️ Running on simulator - camera not available")
         #else
-        // Use custom camera capturer that manually handles AVCaptureSession
-        // This is more reliable than RTCCameraVideoCapturer on some iOS versions
-        let customCapturer = CustomCameraCapturer(videoSource: videoSource)
-        self.customCameraCapturer = customCapturer
-        print("📹 Created CUSTOM camera capturer for reliable frame delivery")
+        // Create an adapter to track frame delivery
+        let adapter = VideoSourceAdapter(videoSource: videoSource)
+        self.sourceAdapter = adapter
+        self.videoCapturer = RTCCameraVideoCapturer(delegate: adapter)
+        print("📹 Created camera capturer with VIDEO SOURCE ADAPTER for frame tracking")
         #endif
+
+        // Adapt output format to ensure we don't send 4K video
+        // This is often the cause of black screens if the renderer/encoder can't handle high res
+        videoSource.adaptOutputFormat(toWidth: 640, height: 480, fps: 30)
+        print("📹 Video source adapted to 640x480 @ 30fps")
 
         let videoTrack = ConnectionFactory.factory.videoTrack(with: videoSource, trackId: "video0")
         videoTrack.isEnabled = true
         self.localVideoTrack = videoTrack
-
-        // Add debug renderer to LOCAL track to verify frames are reaching the track
-        let debugLocal = DebugVideoRenderer(label: "LOCAL")
-        self.debugLocalRenderer = debugLocal
-        videoTrack.add(debugLocal)
-        print("📹 Debug renderer attached to LOCAL video track")
 
         self.peerConnection?.add(videoTrack, streamIds: ["stream0"])
         print("📹 Video track added to peer connection, isEnabled: \(videoTrack.isEnabled)")
@@ -120,13 +117,17 @@ final class WebRTCClient: NSObject {
         switch cameraStatus {
         case .authorized:
             print("✅ Camera already authorized")
-            startCustomCameraCapture()
+            if let cameraCapturer = self.videoCapturer as? RTCCameraVideoCapturer {
+                self.startCameraCapture(with: cameraCapturer)
+            }
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
                 if granted {
                     print("✅ Camera permission granted")
                     DispatchQueue.main.async {
-                        self?.startCustomCameraCapture()
+                        if let cameraCapturer = self?.videoCapturer as? RTCCameraVideoCapturer {
+                            self?.startCameraCapture(with: cameraCapturer)
+                        }
                     }
                 } else {
                     print("❌ Camera permission denied by user")
@@ -139,13 +140,88 @@ final class WebRTCClient: NSObject {
         }
     }
 
-    private func startCustomCameraCapture() {
-        guard let capturer = customCameraCapturer else {
-            print("❌ Custom camera capturer not initialized!")
+    private func startCameraCapture(with capturer: RTCCameraVideoCapturer) {
+        let devices = RTCCameraVideoCapturer.captureDevices()
+        print("📹 Available cameras: \(devices.count)")
+
+        guard let frontCamera = devices.first(where: { $0.position == .front }) ?? devices.first else {
+            print("❌ No camera found!")
             return
         }
 
-        capturer.startCapture()
+        print("📹 Using camera: \(frontCamera.localizedName)")
+
+        let formats = RTCCameraVideoCapturer.supportedFormats(for: frontCamera)
+        print("📹 Found \(formats.count) formats")
+
+        // Find the format closest to 640x480, which is widely compatible
+        let targetWidth: Int32 = 640
+        let targetHeight: Int32 = 480
+
+        // Select a format that supports the target resolution
+        var selectedFormat: AVCaptureDevice.Format?
+
+        // Try to verify we aren't picking a weird format
+        selectedFormat = formats.first { format in
+             let dimensions = CMVideoFormatDescriptionGetDimensions(format.formatDescription)
+             // Simple check for reliable VGA-like resolution
+             return dimensions.width == targetWidth && dimensions.height == targetHeight
+        }
+
+        // Fallback or detailed search
+        if selectedFormat == nil {
+             selectedFormat = formats.min { (f1, f2) -> Bool in
+                let d1 = CMVideoFormatDescriptionGetDimensions(f1.formatDescription)
+                let d2 = CMVideoFormatDescriptionGetDimensions(f2.formatDescription)
+                let diff1 = abs(d1.width - targetWidth) + abs(d1.height - targetHeight)
+                let diff2 = abs(d2.width - targetWidth) + abs(d2.height - targetHeight)
+                return diff1 < diff2
+            }
+        }
+
+        guard let format = selectedFormat else {
+            print("❌ No suitable format found!")
+            return
+        }
+
+        let dimensions = CMVideoFormatDescriptionGetDimensions(format.formatDescription)
+        print("📹 Selected format: \(dimensions.width)x\(dimensions.height)")
+
+        let fps = 30
+        print("📹 Starting capture at \(fps) FPS...")
+        print("📹 Video source state before capture: \(String(describing: self.localVideoSource?.state.rawValue))")
+
+        capturer.startCapture(with: frontCamera, format: format, fps: fps) { [weak self] error in
+            if let error = error {
+                print("❌ Camera capture failed: \(error.localizedDescription)")
+            } else {
+                print("✅ Camera capture started successfully! (Format: \(dimensions.width)x\(dimensions.height) @ \(fps)fps)")
+
+                // Schedule a delayed check to verify frames are flowing
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
+                    if let adapter = self?.sourceAdapter {
+                        let count = adapter.totalFrameCount
+                        if count > 0 {
+                            print("📹 ✅ CAPTURE VERIFICATION: \(count) frames captured after 2 seconds - camera is working!")
+                        } else {
+                            print("📹 ⚠️⚠️⚠️ CAPTURE WARNING: 0 frames captured after 2 seconds! Camera may not be delivering frames!")
+                            print("📹 ⚠️ Checking capturer state...")
+                            print("📹 Video source: \(self?.localVideoSource != nil ? "exists" : "nil")")
+                            print("📹 Source adapter: \(self?.sourceAdapter != nil ? "exists" : "nil")")
+                            print("📹 Capturer: \(self?.videoCapturer != nil ? "exists" : "nil")")
+                        }
+                    }
+                }
+
+                // Second check at 5 seconds
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) { [weak self] in
+                    if let adapter = self?.sourceAdapter {
+                        let count = adapter.totalFrameCount
+                        print("📹 5-second frame count: \(count)")
+                    }
+                }
+            }
+        }
     }
     
     // MARK: - Signaling
@@ -318,11 +394,7 @@ extension WebRTCClient: RTCPeerConnectionDelegate {
             
             self.remoteVideoTrack = videoTrack
             
-            // Add debug renderer to check if frames are arriving
-            let debugRenderer = DebugVideoRenderer(label: "REMOTE")
-            self.debugRemoteRenderer = debugRenderer
-            videoTrack.add(debugRenderer)
-            print("📹 Debug renderer attached to remote track to monitor frame delivery")
+
             
             DispatchQueue.main.async {
                 self.delegate?.webRTCClient(self, didReceiveRemoteVideoTrack: videoTrack)
@@ -400,273 +472,49 @@ extension WebRTCClient: RTCPeerConnectionDelegate {
     }
 }
 
-// MARK: - Custom Camera Capturer using AVFoundation directly
-// This is more reliable than RTCCameraVideoCapturer on some iOS versions
-class CustomCameraCapturer: RTCVideoCapturer {
+// MARK: - Video Source Adapter for Frame Tracking
+// This adapter sits between the camera capturer and video source to track frame delivery
+class VideoSourceAdapter: NSObject, RTCVideoCapturerDelegate {
     private let videoSource: RTCVideoSource
-    private var captureSession: AVCaptureSession?
-    private var videoOutput: AVCaptureVideoDataOutput?
-    private let sessionQueue = DispatchQueue(label: "com.videocall.camera.session", qos: .userInteractive)
-    private let outputQueue = DispatchQueue(label: "com.videocall.camera.output", qos: .userInteractive)
-
     private var frameCount = 0
     private var lastLogTime = Date()
     private var hasLoggedFirstFrame = false
-    private var isCapturing = false
-
+    
     init(videoSource: RTCVideoSource) {
         self.videoSource = videoSource
-        // Initialize RTCVideoCapturer with the video source as delegate
-        super.init(delegate: videoSource)
-        print("📹 CustomCameraCapturer initialized (extends RTCVideoCapturer)")
+        super.init()
+        print("📹 VideoSourceAdapter initialized")
     }
-
-    func startCapture() {
-        sessionQueue.async { [weak self] in
-            self?.setupAndStartCapture()
+    
+    func capturer(_ capturer: RTCVideoCapturer, didCapture frame: RTCVideoFrame) {
+        frameCount += 1
+        
+        // Log the FIRST frame immediately
+        if !hasLoggedFirstFrame {
+            hasLoggedFirstFrame = true
+            print("📹 🎬⭐ FIRST LOCAL FRAME CAPTURED! Size: \(frame.width)x\(frame.height)")
+            lastLogTime = Date()
         }
+        
+        // Log every 30 frames (approximately once per second at 30fps)
+        if frameCount % 30 == 0 {
+            let now = Date()
+            let elapsed = now.timeIntervalSince(lastLogTime)
+            let fps = elapsed > 0 ? 30.0 / elapsed : 0
+            print("📹 🎬 FRAMES FLOWING: \(frameCount) total, ~\(Int(fps)) fps, size: \(frame.width)x\(frame.height)")
+            lastLogTime = now
+        }
+        
+        // Forward the frame to the actual video source
+        videoSource.capturer(capturer, didCapture: frame)
     }
-
-    private func setupAndStartCapture() {
-        print("📹 [CustomCapturer] Setting up AVCaptureSession...")
-
-        // Create capture session
-        let session = AVCaptureSession()
-        session.beginConfiguration()
-
-        // Set session preset for optimal performance
-        if session.canSetSessionPreset(.vga640x480) {
-            session.sessionPreset = .vga640x480
-            print("📹 [CustomCapturer] Set session preset to VGA 640x480")
-        } else if session.canSetSessionPreset(.medium) {
-            session.sessionPreset = .medium
-            print("📹 [CustomCapturer] Set session preset to medium")
-        }
-
-        // Find front camera
-        guard let camera = findFrontCamera() else {
-            print("❌ [CustomCapturer] No front camera found!")
-            session.commitConfiguration()
-            return
-        }
-        print("📹 [CustomCapturer] Using camera: \(camera.localizedName)")
-
-        // Create and add camera input
-        do {
-            let input = try AVCaptureDeviceInput(device: camera)
-            if session.canAddInput(input) {
-                session.addInput(input)
-                print("📹 [CustomCapturer] Added camera input")
-            } else {
-                print("❌ [CustomCapturer] Cannot add camera input!")
-                session.commitConfiguration()
-                return
-            }
-        } catch {
-            print("❌ [CustomCapturer] Error creating camera input: \(error)")
-            session.commitConfiguration()
-            return
-        }
-
-        // Create and configure video output
-        let output = AVCaptureVideoDataOutput()
-        output.videoSettings = [
-            kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_420YpCbCr8BiPlanarFullRange
-        ]
-        output.alwaysDiscardsLateVideoFrames = true
-        output.setSampleBufferDelegate(self, queue: outputQueue)
-
-        if session.canAddOutput(output) {
-            session.addOutput(output)
-            print("📹 [CustomCapturer] Added video output")
-
-            // Configure video orientation
-            if let connection = output.connection(with: .video) {
-                if connection.isVideoOrientationSupported {
-                    connection.videoOrientation = .portrait
-                    print("📹 [CustomCapturer] Set video orientation to portrait")
-                }
-                if connection.isVideoMirroringSupported {
-                    connection.isVideoMirrored = true
-                    print("📹 [CustomCapturer] Enabled video mirroring for front camera")
-                }
-            }
-        } else {
-            print("❌ [CustomCapturer] Cannot add video output!")
-            session.commitConfiguration()
-            return
-        }
-
-        session.commitConfiguration()
-        self.captureSession = session
-        self.videoOutput = output
-
-        print("📹 [CustomCapturer] Starting capture session...")
-        session.startRunning()
-
-        // Verify session is running
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-            if let session = self?.captureSession {
-                let isRunning = session.isRunning
-                print("📹 [CustomCapturer] Session running check: \(isRunning ? "✅ YES" : "❌ NO")")
-                if isRunning {
-                    self?.isCapturing = true
-                    print("📹 [CustomCapturer] ✅ Capture session started successfully!")
-                }
-            }
-        }
-
-        // Delayed frame count check
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
-            guard let self = self else { return }
-            let count = self.frameCount
-            if count > 0 {
-                print("📹 [CustomCapturer] ✅ CAPTURE VERIFIED: \(count) frames after 2 seconds!")
-            } else {
-                print("📹 [CustomCapturer] ⚠️ WARNING: 0 frames after 2 seconds!")
-                print("📹 [CustomCapturer] Session running: \(self.captureSession?.isRunning ?? false)")
-                print("📹 [CustomCapturer] Output: \(self.videoOutput != nil ? "exists" : "nil")")
-            }
-        }
-
-        // 5 second check
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) { [weak self] in
-            guard let self = self else { return }
-            print("📹 [CustomCapturer] 5-second frame count: \(self.frameCount)")
-        }
-    }
-
-    private func findFrontCamera() -> AVCaptureDevice? {
-        // Try discovery session first (iOS 10+)
-        let discoverySession = AVCaptureDevice.DiscoverySession(
-            deviceTypes: [.builtInWideAngleCamera],
-            mediaType: .video,
-            position: .front
-        )
-
-        if let device = discoverySession.devices.first {
-            print("📹 [CustomCapturer] Found front camera via discovery session")
-            return device
-        }
-
-        // Fallback to default device
-        if let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) {
-            print("📹 [CustomCapturer] Found front camera via default")
-            return device
-        }
-
-        // Last resort: any camera
-        print("📹 [CustomCapturer] ⚠️ No front camera, trying any camera...")
-        return AVCaptureDevice.default(for: .video)
-    }
-
-    func stopCapture() {
-        sessionQueue.async { [weak self] in
-            self?.captureSession?.stopRunning()
-            self?.isCapturing = false
-            print("📹 [CustomCapturer] Stopped capture session")
-        }
-    }
-
+    
     var totalFrameCount: Int {
         return frameCount
     }
 }
 
-// MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
-extension CustomCameraCapturer: AVCaptureVideoDataOutputSampleBufferDelegate {
-    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        // Get pixel buffer from sample buffer
-        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
-            print("📹 [CustomCapturer] ⚠️ No pixel buffer in sample!")
-            return
-        }
 
-        frameCount += 1
-
-        // Get timestamp
-        let timeStamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
-        let timeStampNs = Int64(CMTimeGetSeconds(timeStamp) * Double(NSEC_PER_SEC))
-
-        // Log first frame
-        if !hasLoggedFirstFrame {
-            hasLoggedFirstFrame = true
-            let width = CVPixelBufferGetWidth(pixelBuffer)
-            let height = CVPixelBufferGetHeight(pixelBuffer)
-            print("📹 [CustomCapturer] 🎬⭐ FIRST FRAME CAPTURED! Size: \(width)x\(height)")
-            lastLogTime = Date()
-        }
-
-        // Log every 30 frames
-        if frameCount % 30 == 0 {
-            let now = Date()
-            let elapsed = now.timeIntervalSince(lastLogTime)
-            let fps = elapsed > 0 ? 30.0 / elapsed : 0
-            let width = CVPixelBufferGetWidth(pixelBuffer)
-            let height = CVPixelBufferGetHeight(pixelBuffer)
-            print("📹 [CustomCapturer] 🎬 FRAMES: \(frameCount) total, ~\(Int(fps)) fps, \(width)x\(height)")
-            lastLogTime = now
-        }
-
-        // Create RTCCVPixelBuffer from the pixel buffer
-        let rtcPixelBuffer = RTCCVPixelBuffer(pixelBuffer: pixelBuffer)
-
-        // Create RTCVideoFrame with the pixel buffer
-        let rtcFrame = RTCVideoFrame(
-            buffer: rtcPixelBuffer,
-            rotation: ._0,
-            timeStampNs: timeStampNs
-        )
-
-        // Send frame to the video source via the delegate (self is the capturer)
-        // This properly routes through RTCVideoCapturer's delegate mechanism
-        self.delegate?.capturer(self, didCapture: rtcFrame)
-    }
-
-    func captureOutput(_ output: AVCaptureOutput, didDrop sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        print("📹 [CustomCapturer] ⚠️ Frame dropped!")
-    }
-}
-
-// MARK: - Debug Video Renderer to track frame delivery
-// This renderer logs when frames arrive to help diagnose rendering issues
-class DebugVideoRenderer: NSObject, RTCVideoRenderer {
-    private let label: String
-    private var frameCount = 0
-    private var lastLogTime = Date()
-    private var hasLoggedFirstFrame = false
-    
-    init(label: String) {
-        self.label = label
-        super.init()
-        print("📺 DebugVideoRenderer[\(label)] initialized")
-    }
-    
-    func setSize(_ size: CGSize) {
-        print("📺 🎉🎉🎉 DebugVideoRenderer[\(label)] setSize called: \(size.width)x\(size.height) - FRAMES WILL ARRIVE!")
-    }
-    
-    func renderFrame(_ frame: RTCVideoFrame?) {
-        guard let frame = frame else { return }
-        frameCount += 1
-
-        // Log the FIRST frame immediately
-        if !hasLoggedFirstFrame {
-            hasLoggedFirstFrame = true
-            print("📺 ⭐⭐⭐ DebugVideoRenderer[\(label)] FIRST FRAME! Size: \(frame.width)x\(frame.height)")
-            lastLogTime = Date()
-        }
-
-        // Log every 30 frames
-        if frameCount % 30 == 0 {
-            let now = Date()
-            let elapsed = now.timeIntervalSince(lastLogTime)
-            let fps = elapsed > 0 ? 30.0 / elapsed : 0
-            print("📺 🎬 DebugVideoRenderer[\(label)] FRAMES: \(frameCount) total, ~\(Int(fps)) fps, \(frame.width)x\(frame.height)")
-            lastLogTime = now
-        }
-    }
-}
 
 // Global factory
 class ConnectionFactory {

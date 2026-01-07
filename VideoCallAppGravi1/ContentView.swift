@@ -154,34 +154,18 @@ struct VideoViewWrapper: UIViewControllerRepresentable {
         }
         
         func videoView(_ videoView: RTCVideoRenderer, didChangeVideoSize size: CGSize) {
-            print("📺 🎉🎉🎉 VIDEO SIZE CHANGED: \(size.width)x\(size.height) - FRAMES ARE ARRIVING! 🎉🎉🎉")
+            print("📺 VIDEO SIZE CHANGED: \(size.width)x\(size.height)")
 
             if !hasReceivedFirstFrame {
                 hasReceivedFirstFrame = true
-                print("📺 ⭐⭐⭐ FIRST FRAME TO METAL RENDERER! ⭐⭐⭐")
-
-                // Log renderer info
-                DispatchQueue.main.async { [weak self] in
-                    guard let renderer = self?.renderer else { return }
-                    print("📺 [MetalRenderer] Frame: \(renderer.frame)")
-                    print("📺 [MetalRenderer] Bounds: \(renderer.bounds)")
-                    print("📺 [MetalRenderer] InHierarchy: \(renderer.superview != nil)")
-                    print("📺 [MetalRenderer] Hidden: \(renderer.isHidden)")
-                    print("📺 [MetalRenderer] Alpha: \(renderer.alpha)")
-                    print("📺 [MetalRenderer] ContentMode: \(renderer.contentMode.rawValue)")
-                    if let metalLayer = renderer.layer as? CAMetalLayer {
-                        print("📺 [MetalRenderer] MetalLayer drawableSize: \(metalLayer.drawableSize)")
-                        print("📺 [MetalRenderer] MetalLayer contentsScale: \(metalLayer.contentsScale)")
-                        print("📺 [MetalRenderer] MetalLayer pixelFormat: \(metalLayer.pixelFormat.rawValue)")
-                    }
-                }
+                print("📺 FIRST FRAME RECEIVED!")
             }
 
             DispatchQueue.main.async { [weak self] in
                 self?.hasFrames.wrappedValue = true
                 guard let renderer = self?.renderer else { return }
 
-                // Force Metal view to redraw multiple times
+                // Force Metal view to redraw
                 renderer.setNeedsLayout()
                 renderer.layoutIfNeeded()
                 renderer.setNeedsDisplay()
@@ -192,13 +176,7 @@ struct VideoViewWrapper: UIViewControllerRepresentable {
                     metalLayer.drawableSize = CGSize(width: renderer.bounds.width * scale,
                                                      height: renderer.bounds.height * scale)
                     metalLayer.contentsScale = scale
-                    print("📺 Updated Metal drawable size to: \(metalLayer.drawableSize), scale: \(scale)")
                 }
-
-                // Force view controller to refresh
-                self?.viewController?.forceRefresh()
-
-                print("📺 Forced Metal view layout after size change")
             }
         }
     }
@@ -389,25 +367,10 @@ class MainViewModel: ObservableObject {
     }
     
     // Called when the local video view is ready (in the view hierarchy)
+    // Called when the local video view is ready (in the view hierarchy)
     func attachLocalRenderer() {
-        print("📺 ⭐ attachLocalRenderer called - view is now in hierarchy!")
-        print("📺 [attachLocal] Renderer frame: \(self.localRenderer.frame)")
-        print("📺 [attachLocal] Renderer superview: \(self.localRenderer.superview != nil ? "YES" : "NO")")
-
+        print("📺 attachLocalRenderer called")
         self.webRTCClient.renderLocalVideo(to: self.localRenderer)
-        print("📺 Local renderer attached to track AFTER view is in hierarchy")
-
-        // Check again after a delay to verify frames are flowing
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { [weak self] in
-            guard let self = self else { return }
-            print("📺 [attachLocal] 3-second check:")
-            print("📺 [attachLocal] Renderer frame: \(self.localRenderer.frame)")
-            print("📺 [attachLocal] Renderer isHidden: \(self.localRenderer.isHidden)")
-            print("📺 [attachLocal] Renderer alpha: \(self.localRenderer.alpha)")
-            if let metalLayer = self.localRenderer.layer as? CAMetalLayer {
-                print("📺 [attachLocal] Metal drawableSize: \(metalLayer.drawableSize)")
-            }
-        }
     }
     
     func requestPermissionsAndConnect() {
