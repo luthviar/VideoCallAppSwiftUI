@@ -27,6 +27,9 @@ final class WebRTCClient: NSObject {
     private var remoteVideoTrack: RTCVideoTrack?
     private var localVideoSource: RTCVideoSource?
     private var sourceAdapter: VideoSourceAdapter? // Keep strong reference
+    private var captureSessionObserver: NSObjectProtocol?
+    private var restartAttempts: Int = 0
+    private let maxRestartAttempts: Int = 2
 
     weak var delegate: WebRTCClientDelegate?
     
@@ -39,6 +42,12 @@ final class WebRTCClient: NSObject {
         super.init()
         print("🚀 WebRTCClient initializing...")
         setup()
+    }
+    
+    deinit {
+        if let observer = captureSessionObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
     }
 
     // MARK: - Setup
@@ -75,9 +84,10 @@ final class WebRTCClient: NSObject {
         self.peerConnection?.add(audioTrack, streamIds: ["stream0"])
         print("🎤 Audio track added to peer connection")
 
-        // Video
-        let videoSource = ConnectionFactory.factory.videoSource()
+        // Video - use forScreenCast:false to indicate this is a camera source
+        let videoSource = ConnectionFactory.factory.videoSource(forScreenCast: false)
         self.localVideoSource = videoSource
+        print("📹 Created video source, state: \(videoSource.state.rawValue)")
 
         #if targetEnvironment(simulator)
         self.videoCapturer = RTCFileVideoCapturer(delegate: videoSource)
@@ -88,23 +98,33 @@ final class WebRTCClient: NSObject {
         self.sourceAdapter = adapter
         self.videoCapturer = RTCCameraVideoCapturer(delegate: adapter)
         print("📹 Created camera capturer with VIDEO SOURCE ADAPTER for frame tracking")
+        print("📹 Adapter: \(adapter)")
+        print("📹 Capturer: \(String(describing: self.videoCapturer))")
         #endif
 
-        // Adapt output format to ensure we don't send 4K video
-        // This is often the cause of black screens if the renderer/encoder can't handle high res
-        videoSource.adaptOutputFormat(toWidth: 640, height: 480, fps: 30)
-        print("📹 Video source adapted to 640x480 @ 30fps")
-
+        // NOTE: Don't call adaptOutputFormat here - it can conflict with the capture format
+        // The format will be determined when startCapture is called
+        
         let videoTrack = ConnectionFactory.factory.videoTrack(with: videoSource, trackId: "video0")
         videoTrack.isEnabled = true
         self.localVideoTrack = videoTrack
+        print("📹 Created video track: \(videoTrack.trackId), enabled: \(videoTrack.isEnabled)")
 
         self.peerConnection?.add(videoTrack, streamIds: ["stream0"])
         print("📹 Video track added to peer connection, isEnabled: \(videoTrack.isEnabled)")
 
-        // Request camera permission and start capture
+        // NOTE: Don't start camera capture here - wait until startCapture() is called
+        // This allows the view to be ready before starting the camera
+        print("📹 Local media setup complete - call startCapture() to begin camera capture")
+    }
+    
+    // Public method to start camera capture - call this after the view is ready
+    func startCapture() {
+        print("📹 startCapture() called - initiating camera capture")
         #if !targetEnvironment(simulator)
         requestCameraPermissionAndStartCapture()
+        #else
+        print("⚠️ Running on simulator - camera not available")
         #endif
     }
 
@@ -117,8 +137,15 @@ final class WebRTCClient: NSObject {
         switch cameraStatus {
         case .authorized:
             print("✅ Camera already authorized")
-            if let cameraCapturer = self.videoCapturer as? RTCCameraVideoCapturer {
-                self.startCameraCapture(with: cameraCapturer)
+            // IMPORTANT: Always start camera capture on main thread
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                if let cameraCapturer = self.videoCapturer as? RTCCameraVideoCapturer {
+                    print("📹 Starting camera capture on main thread (authorized path)")
+                    self.startCameraCapture(with: cameraCapturer)
+                } else {
+                    print("❌ videoCapturer is not RTCCameraVideoCapturer: \(String(describing: self.videoCapturer))")
+                }
             }
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
@@ -126,6 +153,7 @@ final class WebRTCClient: NSObject {
                     print("✅ Camera permission granted")
                     DispatchQueue.main.async {
                         if let cameraCapturer = self?.videoCapturer as? RTCCameraVideoCapturer {
+                            print("📹 Starting camera capture on main thread (just-granted path)")
                             self?.startCameraCapture(with: cameraCapturer)
                         }
                     }
@@ -144,83 +172,296 @@ final class WebRTCClient: NSObject {
         let devices = RTCCameraVideoCapturer.captureDevices()
         print("📹 Available cameras: \(devices.count)")
 
-        guard let frontCamera = devices.first(where: { $0.position == .front }) ?? devices.first else {
+        guard let camera = devices.first(where: { $0.position == .front }) ?? devices.first else {
             print("❌ No camera found!")
             return
         }
 
-        print("📹 Using camera: \(frontCamera.localizedName)")
+        print("📹 Using camera: \(camera.localizedName)")
+        print("📹 Camera's current active format: \(camera.activeFormat)")
+        
+        let currentDimensions = CMVideoFormatDescriptionGetDimensions(camera.activeFormat.formatDescription)
+        print("📹 Camera's current resolution: \(currentDimensions.width)x\(currentDimensions.height)")
+        
+        // Check if device supports multi-cam
+        let supportsMultiCam = AVCaptureMultiCamSession.isMultiCamSupported
+        print("📹 Device supports MultiCam: \(supportsMultiCam)")
 
-        let formats = RTCCameraVideoCapturer.supportedFormats(for: frontCamera)
-        print("📹 Found \(formats.count) formats")
-
-        // Find the format closest to 640x480, which is widely compatible
-        let targetWidth: Int32 = 640
-        let targetHeight: Int32 = 480
-
-        // Select a format that supports the target resolution
-        var selectedFormat: AVCaptureDevice.Format?
-
-        // Try to verify we aren't picking a weird format
-        selectedFormat = formats.first { format in
-             let dimensions = CMVideoFormatDescriptionGetDimensions(format.formatDescription)
-             // Simple check for reliable VGA-like resolution
-             return dimensions.width == targetWidth && dimensions.height == targetHeight
+        // Get formats that WebRTC says are supported
+        let formats = RTCCameraVideoCapturer.supportedFormats(for: camera)
+        print("📹 Found \(formats.count) WebRTC-supported formats")
+        
+        // Log formats to understand what's available
+        print("📹 Available formats (first 10):")
+        for (index, format) in formats.prefix(10).enumerated() {
+            let dimensions = CMVideoFormatDescriptionGetDimensions(format.formatDescription)
+            var maxFps: Float64 = 0
+            for range in format.videoSupportedFrameRateRanges {
+                maxFps = max(maxFps, range.maxFrameRate)
+            }
+            let multiCamSupported = format.isMultiCamSupported
+            print("📹   [\(index)]: \(dimensions.width)x\(dimensions.height) @ \(Int(maxFps))fps (multiCam: \(multiCamSupported))")
         }
-
-        // Fallback or detailed search
+        
+        // CRITICAL: Filter to only formats that support MultiCam if the device uses it
+        var candidateFormats = formats
+        if supportsMultiCam {
+            let multiCamFormats = formats.filter { $0.isMultiCamSupported }
+            if !multiCamFormats.isEmpty {
+                candidateFormats = multiCamFormats
+                print("📹 Filtered to \(multiCamFormats.count) MultiCam-compatible formats")
+            } else {
+                print("📹 ⚠️ No MultiCam-compatible formats found, using all formats")
+            }
+        }
+        
+        // Strategy: Find a format with moderate resolution that's known to work
+        // Prefer 1280x720 or 640x480 as these are standard and well-supported
+        let preferredResolutions: [(Int32, Int32)] = [
+            (1280, 720),   // HD
+            (960, 540),    // qHD
+            (640, 480),    // VGA
+            (1920, 1080),  // Full HD (might work on newer devices)
+            (640, 360),    // nHD
+            (352, 288),    // CIF
+        ]
+        
+        var selectedFormat: AVCaptureDevice.Format?
+        var selectedFps: Int = 30
+        
+        // Try each preferred resolution in order
+        for (targetWidth, targetHeight) in preferredResolutions {
+            for format in candidateFormats {
+                let dimensions = CMVideoFormatDescriptionGetDimensions(format.formatDescription)
+                
+                if dimensions.width == targetWidth && dimensions.height == targetHeight {
+                    // Check FPS support
+                    var maxFps: Float64 = 0
+                    for range in format.videoSupportedFrameRateRanges {
+                        maxFps = max(maxFps, range.maxFrameRate)
+                    }
+                    
+                    if maxFps >= 15 {
+                        selectedFormat = format
+                        selectedFps = min(Int(maxFps), 30)
+                        print("📹 ✅ Found matching format: \(targetWidth)x\(targetHeight) @ \(selectedFps)fps, multiCam: \(format.isMultiCamSupported)")
+                        break
+                    }
+                }
+            }
+            if selectedFormat != nil { break }
+        }
+        
+        // If no preferred resolution found, pick a reasonable format
         if selectedFormat == nil {
-             selectedFormat = formats.min { (f1, f2) -> Bool in
-                let d1 = CMVideoFormatDescriptionGetDimensions(f1.formatDescription)
-                let d2 = CMVideoFormatDescriptionGetDimensions(f2.formatDescription)
-                let diff1 = abs(d1.width - targetWidth) + abs(d1.height - targetHeight)
-                let diff2 = abs(d2.width - targetWidth) + abs(d2.height - targetHeight)
-                return diff1 < diff2
+            print("📹 ⚠️ No preferred resolution found, selecting best available...")
+            for format in candidateFormats {
+                let dimensions = CMVideoFormatDescriptionGetDimensions(format.formatDescription)
+                
+                // Skip very large or very small formats
+                if dimensions.width > 1920 || dimensions.width < 320 {
+                    continue
+                }
+                
+                var maxFps: Float64 = 0
+                for range in format.videoSupportedFrameRateRanges {
+                    maxFps = max(maxFps, range.maxFrameRate)
+                }
+                
+                if maxFps >= 15 {
+                    selectedFormat = format
+                    selectedFps = min(Int(maxFps), 30)
+                    print("📹 Selected fallback format: \(dimensions.width)x\(dimensions.height) @ \(selectedFps)fps")
+                    break
+                }
             }
         }
 
         guard let format = selectedFormat else {
             print("❌ No suitable format found!")
+            // Last resort: try the first format
+            if let firstFormat = candidateFormats.first {
+                let dimensions = CMVideoFormatDescriptionGetDimensions(firstFormat.formatDescription)
+                print("📹 Using first format as last resort: \(dimensions.width)x\(dimensions.height)")
+                startCaptureWithFormat(capturer: capturer, camera: camera, format: firstFormat, fps: 30)
+            }
             return
         }
 
         let dimensions = CMVideoFormatDescriptionGetDimensions(format.formatDescription)
-        print("📹 Selected format: \(dimensions.width)x\(dimensions.height)")
+        print("📹 Final selected format: \(dimensions.width)x\(dimensions.height) @ \(selectedFps)fps")
+        
+        startCaptureWithFormat(capturer: capturer, camera: camera, format: format, fps: selectedFps)
+    }
+    
+    private func startCaptureWithFormat(capturer: RTCCameraVideoCapturer, camera: AVCaptureDevice, format: AVCaptureDevice.Format, fps: Int) {
+        let dimensions = CMVideoFormatDescriptionGetDimensions(format.formatDescription)
+        
+        print("📹 Starting capture...")
+        print("📹 Video source state: \(String(describing: self.localVideoSource?.state.rawValue))")
+        print("📹 Capturer: \(capturer)")
+        print("📹 Format dimensions: \(dimensions.width)x\(dimensions.height)")
+        
+        // CRITICAL: Pre-configure the device's active format BEFORE starting capture
+        // This helps avoid the "active format is unsupported" error with AVCaptureMultiCamSession
+        do {
+            try camera.lockForConfiguration()
+            camera.activeFormat = format
+            
+            // Set frame rate
+            let frameDuration = CMTimeMake(value: 1, timescale: Int32(fps))
+            camera.activeVideoMinFrameDuration = frameDuration
+            camera.activeVideoMaxFrameDuration = frameDuration
+            
+            camera.unlockForConfiguration()
+            print("📹 ✅ Pre-configured camera with format: \(dimensions.width)x\(dimensions.height) @ \(fps)fps")
+        } catch {
+            print("📹 ⚠️ Failed to pre-configure camera: \(error)")
+            // Continue anyway, the capturer might handle it
+        }
+        
+        // Add notification observers for capture session state
+        setupCaptureSessionObservers(for: capturer)
 
-        let fps = 30
-        print("📹 Starting capture at \(fps) FPS...")
-        print("📹 Video source state before capture: \(String(describing: self.localVideoSource?.state.rawValue))")
-
-        capturer.startCapture(with: frontCamera, format: format, fps: fps) { [weak self] error in
+        capturer.startCapture(with: camera, format: format, fps: fps) { [weak self] error in
             if let error = error {
                 print("❌ Camera capture failed: \(error.localizedDescription)")
+                print("❌ Error details: \(error)")
             } else {
                 print("✅ Camera capture started successfully! (Format: \(dimensions.width)x\(dimensions.height) @ \(fps)fps)")
+                
+                // Immediately check capture session state
+                DispatchQueue.main.async {
+                    print("📹 CaptureSession isRunning: \(capturer.captureSession.isRunning)")
+                    print("📹 CaptureSession isInterrupted: \(capturer.captureSession.isInterrupted)")
+                }
 
                 // Schedule a delayed check to verify frames are flowing
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
-                    if let adapter = self?.sourceAdapter {
+                    guard let self = self else {
+                        print("📹 ⚠️ Self was deallocated!")
+                        return
+                    }
+                    self.verifyCameraCapture(capturer: capturer)
+                }
+
+                // Second check at 5 seconds - but don't auto-restart infinitely
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) { [weak self] in
+                    guard let self = self else { return }
+                    if let adapter = self.sourceAdapter {
                         let count = adapter.totalFrameCount
-                        if count > 0 {
-                            print("📹 ✅ CAPTURE VERIFICATION: \(count) frames captured after 2 seconds - camera is working!")
-                        } else {
-                            print("📹 ⚠️⚠️⚠️ CAPTURE WARNING: 0 frames captured after 2 seconds! Camera may not be delivering frames!")
-                            print("📹 ⚠️ Checking capturer state...")
-                            print("📹 Video source: \(self?.localVideoSource != nil ? "exists" : "nil")")
-                            print("📹 Source adapter: \(self?.sourceAdapter != nil ? "exists" : "nil")")
-                            print("📹 Capturer: \(self?.videoCapturer != nil ? "exists" : "nil")")
+                        print("📹 5-second frame count: \(count)")
+                        if count == 0 && self.restartAttempts < self.maxRestartAttempts {
+                            self.restartAttempts += 1
+                            print("📹 ⚠️ Still 0 frames at 5 seconds - attempting restart \(self.restartAttempts)/\(self.maxRestartAttempts)...")
+                            self.restartCameraCapture()
+                        } else if count == 0 {
+                            print("📹 ❌ Camera capture failed after \(self.maxRestartAttempts) restart attempts")
+                            print("📹 ❌ This may be a device compatibility issue with AVCaptureMultiCamSession")
                         }
                     }
                 }
-
-                // Second check at 5 seconds
-                DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) { [weak self] in
-                    if let adapter = self?.sourceAdapter {
-                        let count = adapter.totalFrameCount
-                        print("📹 5-second frame count: \(count)")
-                    }
+            }
+        }
+    }
+    
+    private func setupCaptureSessionObservers(for capturer: RTCCameraVideoCapturer) {
+        let session = capturer.captureSession
+        
+        // Observe capture session start
+        captureSessionObserver = NotificationCenter.default.addObserver(
+            forName: .AVCaptureSessionDidStartRunning,
+            object: session,
+            queue: .main
+        ) { _ in
+            print("📹 🟢 AVCaptureSession DID START RUNNING")
+        }
+        
+        NotificationCenter.default.addObserver(
+            forName: .AVCaptureSessionDidStopRunning,
+            object: session,
+            queue: .main
+        ) { _ in
+            print("📹 🔴 AVCaptureSession DID STOP RUNNING")
+        }
+        
+        NotificationCenter.default.addObserver(
+            forName: .AVCaptureSessionWasInterrupted,
+            object: session,
+            queue: .main
+        ) { notification in
+            if let reason = notification.userInfo?[AVCaptureSessionInterruptionReasonKey] as? Int {
+                print("📹 ⚠️ AVCaptureSession WAS INTERRUPTED - reason: \(reason)")
+            } else {
+                print("📹 ⚠️ AVCaptureSession WAS INTERRUPTED")
+            }
+        }
+        
+        NotificationCenter.default.addObserver(
+            forName: .AVCaptureSessionInterruptionEnded,
+            object: session,
+            queue: .main
+        ) { _ in
+            print("📹 🟢 AVCaptureSession INTERRUPTION ENDED")
+        }
+        
+        NotificationCenter.default.addObserver(
+            forName: .AVCaptureSessionRuntimeError,
+            object: session,
+            queue: .main
+        ) { notification in
+            if let error = notification.userInfo?[AVCaptureSessionErrorKey] as? Error {
+                print("📹 ❌ AVCaptureSession RUNTIME ERROR: \(error)")
+            } else {
+                print("📹 ❌ AVCaptureSession RUNTIME ERROR")
+            }
+        }
+    }
+    
+    private func verifyCameraCapture(capturer: RTCCameraVideoCapturer) {
+        if let adapter = self.sourceAdapter {
+            let count = adapter.totalFrameCount
+            if count > 0 {
+                print("📹 ✅ CAPTURE VERIFICATION: \(count) frames captured after 2 seconds - camera is working!")
+            } else {
+                print("📹 ⚠️⚠️⚠️ CAPTURE WARNING: 0 frames captured after 2 seconds! Camera may not be delivering frames!")
+                print("📹 ⚠️ Checking capturer state...")
+                print("📹 Video source: \(self.localVideoSource != nil ? "exists" : "nil")")
+                print("📹 Source adapter: \(self.sourceAdapter != nil ? "exists" : "nil")")
+                print("📹 Capturer: \(self.videoCapturer != nil ? "exists" : "nil")")
+                print("📹 RTCCameraVideoCapturer captureSession: \(String(describing: capturer.captureSession))")
+                print("📹 CaptureSession isRunning: \(capturer.captureSession.isRunning)")
+                print("📹 CaptureSession isInterrupted: \(capturer.captureSession.isInterrupted)")
+                print("📹 CaptureSession inputs: \(capturer.captureSession.inputs.count)")
+                print("📹 CaptureSession outputs: \(capturer.captureSession.outputs.count)")
+                
+                // List inputs and outputs
+                for (index, input) in capturer.captureSession.inputs.enumerated() {
+                    print("📹   Input[\(index)]: \(input)")
+                }
+                for (index, output) in capturer.captureSession.outputs.enumerated() {
+                    print("📹   Output[\(index)]: \(output)")
                 }
             }
+        } else {
+            print("📹 ⚠️ Source adapter is nil!")
+        }
+    }
+    
+    // Public method to restart camera capture if needed
+    func restartCameraCapture() {
+        print("📹 🔄 RESTARTING CAMERA CAPTURE...")
+        guard let capturer = self.videoCapturer as? RTCCameraVideoCapturer else {
+            print("📹 ❌ No camera capturer to restart")
+            return
+        }
+        
+        // Stop current capture
+        capturer.stopCapture()
+        
+        // Wait a moment then restart
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            self?.startCameraCapture(with: capturer)
         }
     }
     
@@ -479,11 +720,17 @@ class VideoSourceAdapter: NSObject, RTCVideoCapturerDelegate {
     private var frameCount = 0
     private var lastLogTime = Date()
     private var hasLoggedFirstFrame = false
+    private let initTime = Date()
     
     init(videoSource: RTCVideoSource) {
         self.videoSource = videoSource
         super.init()
-        print("📹 VideoSourceAdapter initialized")
+        print("📹 VideoSourceAdapter initialized at \(initTime)")
+        print("📹 VideoSourceAdapter video source: \(videoSource)")
+    }
+    
+    deinit {
+        print("📹 ⚠️⚠️⚠️ VideoSourceAdapter DEALLOCATED! Frame count was: \(frameCount)")
     }
     
     func capturer(_ capturer: RTCVideoCapturer, didCapture frame: RTCVideoFrame) {
@@ -492,7 +739,8 @@ class VideoSourceAdapter: NSObject, RTCVideoCapturerDelegate {
         // Log the FIRST frame immediately
         if !hasLoggedFirstFrame {
             hasLoggedFirstFrame = true
-            print("📹 🎬⭐ FIRST LOCAL FRAME CAPTURED! Size: \(frame.width)x\(frame.height)")
+            let elapsed = Date().timeIntervalSince(initTime)
+            print("📹 🎬⭐ FIRST LOCAL FRAME CAPTURED! Size: \(frame.width)x\(frame.height), \(String(format: "%.2f", elapsed))s after adapter init")
             lastLogTime = Date()
         }
         

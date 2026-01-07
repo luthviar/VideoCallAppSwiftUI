@@ -35,7 +35,7 @@ struct ContentView: View {
                     Text("Local")
                         .font(.caption)
                         .foregroundColor(.gray)
-                    VideoViewWrapper(renderer: viewModel.localRenderer, onViewReady: {
+                    VideoViewWrapper(renderer: viewModel.localRenderer, name: "LOCAL", onViewReady: {
                         viewModel.attachLocalRenderer()
                     })
                         .frame(width: 150, height: 200)
@@ -51,7 +51,7 @@ struct ContentView: View {
                     Text("Remote")
                         .font(.caption)
                         .foregroundColor(.gray)
-                    VideoViewWrapper(renderer: viewModel.remoteRenderer)
+                    VideoViewWrapper(renderer: viewModel.remoteRenderer, name: "REMOTE")
                         .frame(width: 150, height: 200)
                         .background(Color.black)
                         .cornerRadius(10)
@@ -114,9 +114,11 @@ struct VideoViewWrapper: UIViewControllerRepresentable {
     let renderer: RTCMTLVideoView
     let onViewReady: (() -> Void)?
     @Binding var hasFrames: Bool
+    let name: String
     
-    init(renderer: RTCMTLVideoView, onViewReady: (() -> Void)? = nil, hasFrames: Binding<Bool> = .constant(false)) {
+    init(renderer: RTCMTLVideoView, name: String = "Unknown", onViewReady: (() -> Void)? = nil, hasFrames: Binding<Bool> = .constant(false)) {
         self.renderer = renderer
+        self.name = name
         self.onViewReady = onViewReady
         self._hasFrames = hasFrames
     }
@@ -128,7 +130,7 @@ struct VideoViewWrapper: UIViewControllerRepresentable {
         vc.coordinator = context.coordinator
         context.coordinator.viewController = vc
         renderer.delegate = context.coordinator
-        print("📺 VideoViewWrapper: makeUIViewController called")
+        print("📺 VideoViewWrapper[\(name)]: makeUIViewController called")
         return vc
     }
     
@@ -139,7 +141,7 @@ struct VideoViewWrapper: UIViewControllerRepresentable {
     }
     
     func makeCoordinator() -> Coordinator {
-        Coordinator(renderer: renderer, hasFrames: $hasFrames)
+        Coordinator(renderer: renderer, hasFrames: $hasFrames, name: name)
     }
     
     class Coordinator: NSObject, RTCVideoViewDelegate {
@@ -147,18 +149,34 @@ struct VideoViewWrapper: UIViewControllerRepresentable {
         weak var viewController: VideoHostingViewController?
         private var hasFrames: Binding<Bool>
         private var hasReceivedFirstFrame = false
+        private let rendererName: String
+        private var frameCount = 0
+        private var lastLogTime = Date()
         
-        init(renderer: RTCMTLVideoView, hasFrames: Binding<Bool>) {
+        init(renderer: RTCMTLVideoView, hasFrames: Binding<Bool>, name: String = "Unknown") {
             self.renderer = renderer
             self.hasFrames = hasFrames
+            self.rendererName = name
+            super.init()
+            print("📺 Coordinator created for \(name) renderer")
         }
         
         func videoView(_ videoView: RTCVideoRenderer, didChangeVideoSize size: CGSize) {
-            print("📺 VIDEO SIZE CHANGED: \(size.width)x\(size.height)")
-
+            frameCount += 1
+            
+            // Log first frame immediately
             if !hasReceivedFirstFrame {
                 hasReceivedFirstFrame = true
-                print("📺 FIRST FRAME RECEIVED!")
+                print("📺 🎉🎉🎉 [\(rendererName)] FIRST VIDEO FRAME RECEIVED! Size: \(size.width)x\(size.height)")
+            }
+            
+            // Log every 30 frames (approximately once per second)
+            if frameCount % 30 == 0 {
+                let now = Date()
+                let elapsed = now.timeIntervalSince(lastLogTime)
+                let fps = elapsed > 0 ? 30.0 / elapsed : 0
+                print("📺 [\(rendererName)] RENDERING: \(frameCount) frames, ~\(Int(fps)) fps, size: \(size.width)x\(size.height)")
+                lastLogTime = now
             }
 
             DispatchQueue.main.async { [weak self] in
@@ -367,10 +385,13 @@ class MainViewModel: ObservableObject {
     }
     
     // Called when the local video view is ready (in the view hierarchy)
-    // Called when the local video view is ready (in the view hierarchy)
     func attachLocalRenderer() {
         print("📺 attachLocalRenderer called")
         self.webRTCClient.renderLocalVideo(to: self.localRenderer)
+        
+        // Start camera capture now that the view is ready
+        print("📹 View is ready, starting camera capture...")
+        self.webRTCClient.startCapture()
     }
     
     func requestPermissionsAndConnect() {
